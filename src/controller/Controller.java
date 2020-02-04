@@ -68,7 +68,7 @@ public class Controller {
 			case 2:
 				System.out.println("--------- \nDar OBJECTID a buscar: ");
 				dato = lector.nextInt();
-				respuesta = modelo.buscarID(dato) + "";
+				respuesta =  modelo.buscarPorId(dato) + "";
 				if ( respuesta != null)
 				{
 					System.out.println("Dato encontrado: "+ respuesta);

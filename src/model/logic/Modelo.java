@@ -20,21 +20,8 @@ import model.data_structures.Node;
  *
  */
 public class Modelo {
-	/**
-	 * Atributos del modelo del mundo
-	 */
-	private InterfazLista datos;
-	private Comparendos comparendo;
-	private int size=0;
 
-	/**
-	 * Constructor del modelo del mundo con capacidad predefinida
-	 */
-	public Modelo()
-	{
-		datos = new DobleListaEncadenada();
-		comparendo = new Comparendos(null, -1, null, null, null, null, null, null, null, null);
-	}
+	private DobleListaEncadenada<Comparendos> listComparendos= new DobleListaEncadenada<>();
 
 	/**
 	 * Servicio de consulta de numero de elementos presentes en el modelo 
@@ -42,30 +29,7 @@ public class Modelo {
 	 */
 	public int darTamano()
 	{
-		return datos.getSize();
-	}
-
-	/**
-	 * Requerimiento de agregar dato
-	 * @param dato
-	 */
-	public void agregar(Object i)
-	{	
-		datos.agregarAlFinal((Comparable) i);
-	}
-
-	/**
-	 * Requerimiento eliminar dato
-	 * @param dato Dato a eliminar
-	 * @return dato eliminado
-	 */
-
-	public Integer eliminar(Integer dato)
-	{
-		int datoE = (Integer) datos.darElemento(dato);
-		datos.eliminar(dato);
-
-		return datoE;
+		return listComparendos.getSize();
 	}
 
 	public void loadComparendos (String comparendosFile)
@@ -78,35 +42,18 @@ public class Modelo {
 			JSONObject jsonObject =  (JSONObject) obj;
 			JSONArray jsArray = (JSONArray) jsonObject.get("features");
 
-
 			for(Object o: jsArray) {
-				
-				Object objetoP =  o;
-				JSONObject prueba = (JSONObject) objetoP;
-				
-				String name = (String) prueba.get("type");
-				comparendo.setTYPE(name);
 
-				JSONObject properties =  (JSONObject) prueba.get("properties");
 
-				comparendo.setOBJECTID(Integer.parseInt(properties.get("OBJECTID").toString()));
-
-				comparendo.setFECHA_HORA((String)properties.get("FECHA_HORA"));
-				comparendo.setCLASE_VEHI((String) properties.get("CLASE_VEHI"));
-				comparendo.setTIPO_SERVI((String) properties.get("TIPO_SERVI"));
-				comparendo.setINFRACCION((String) properties.get("INFRACCION"));
-				comparendo.setDES_INFRAC((String) properties.get("DES_INFRAC"));
-				comparendo.setLOCALIDAD((String) properties.get("LOCALIDAD"));
-
-				JSONObject geometry =  (JSONObject) prueba.get("geometry");
-				comparendo.setTYPE_GEO((String) geometry.get("type"));
-
+				JSONObject comp = (JSONObject) o;	
+				JSONObject properties =  (JSONObject) comp.get("properties");
+				JSONObject geometry =  (JSONObject) comp.get("geometry");
 				JSONArray coordinates = (JSONArray) geometry.get("coordinates");
-				comparendo.setCOORDINATES(coordinates.toString());
+				Comparendos comparendo = new Comparendos(String.valueOf(comp.get("type")), Integer.parseInt(String.valueOf(properties.get("OBJECTID"))), String.valueOf(properties.get("FECHA_HORA")), String.valueOf(properties.get("CLASE_VEHI")), String.valueOf(properties.get("TIPO_SERVI")), String.valueOf(properties.get("INFRACCION")), String.valueOf(properties.get("DES_INFRAC")), String.valueOf(properties.get("LOCALIDAD")), String.valueOf(geometry.get("type")), String.valueOf(coordinates));
 
-				datos.agregarAlInicio(comparendo);
-				
-		}
+				listComparendos.agregarAlFinal(comparendo);
+			}
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -121,26 +68,37 @@ public class Modelo {
 	 * @param dato Dato a buscar
 	 * @return dato encontrado
 	 */
-	public String buscarID(int OBJECTID)
+	public String buscarPorId(int OBJECTID)
 	{	
+		Iterator <Comparendos> iter = listComparendos.iterator();
+		Comparendos comp = iter.next();
 		Comparendos comparendo = null;
-		
-		Iterator <Comparendos> iter = datos.iterator();
 
 		while(iter.hasNext()) {
-			
-			Comparendos comparador = iter.next();	
-			System.out.println(comparador.getOBJECTID());
-			
-			if(comparendo.getOBJECTID()==OBJECTID)
+
+			if(comp.getOBJECTID()==OBJECTID)
 			{
-				comparendo=comparador;
-		
+				comparendo=comp;
 			}
 
-		}	
-		return comparendo.getOBJECTID() + comparendo.getFECHA_HORA() + comparendo.getINFRACCION() 
-		+ comparendo.getCLASE_VEHI() + comparendo.getTIPO_SERVI() + comparendo.getLOCALIDAD();	
-	}
+			comp = iter.next();	
 
+		}	
+		return comparendo.getOBJECTID() + " " + comparendo.getFECHA_HORA()+" " + comparendo.getINFRACCION() +" " + comparendo.getCLASE_VEHI() +" " + comparendo.getTIPO_SERVI() + " " + comparendo.getLOCALIDAD();	
+	}
+	
+	public String Lista()
+	{
+		Iterator <Comparendos> iter = listComparendos.iterator();
+		Comparendos comp = iter.next();
+		Comparendos comparendo = null;
+
+		while(iter.hasNext()) {
+
+			comparendo=comp;
+			comp = iter.next();	
+		}	
+		return comparendo.getOBJECTID() + " " + comparendo.getFECHA_HORA()+" " + comparendo.getINFRACCION() +" " + comparendo.getCLASE_VEHI() +" " + comparendo.getTIPO_SERVI() + " " + comparendo.getLOCALIDAD();	
+	
+	}
 }

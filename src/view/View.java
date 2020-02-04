@@ -1,5 +1,6 @@
 package view;
 
+import model.data_structures.DobleListaEncadenada;
 import model.logic.Modelo;
 
 public class View 
@@ -27,5 +28,7 @@ public class View
 		public void printModelo(Modelo modelo)
 		{
 			// TODO implementar
+			System.out.println(modelo.Lista());
+			
 		}
 }

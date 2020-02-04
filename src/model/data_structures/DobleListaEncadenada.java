@@ -43,7 +43,7 @@ public class DobleListaEncadenada<T extends Comparable<T>> implements InterfazLi
 				nuevo.setNextNode(primero);
 				primero = nuevo;
 			}
-
+			
 			size++;
 		} 
 		catch (Exception e) 
