@@ -15,8 +15,8 @@ public class View
 	    
 		public void printMenu()
 		{
-			System.out.println("1. Cargar infracciones");
-			System.out.println("2. Buscar infraccion por OBJECTID");
+			System.out.println("1. Cargar comparendos");
+			System.out.println("2. Buscar comparendos por OBJECTID");
 			
 		}
 

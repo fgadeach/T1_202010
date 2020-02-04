@@ -4,25 +4,25 @@ import java.util.Iterator;
 
 public class DobleListaEncadenada<T extends Comparable<T>> implements InterfazLista<T>
 {
-	int size;
+	int tamanio;
 	private Node<T> primero;
 
 	public DobleListaEncadenada()
 	{
 		primero=null;
-		size=0;
+		tamanio=0;
 	}
 
 	public DobleListaEncadenada(T item)
 	{
 		primero = new Node<T>(item);
-		size=1;
+		tamanio=1;
 	}
 
 	@Override
 	public Integer getSize() 
 	{
-		return size;
+		return tamanio;
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class DobleListaEncadenada<T extends Comparable<T>> implements InterfazLi
 				primero = nuevo;
 			}
 			
-			size++;
+			tamanio++;
 		} 
 		catch (Exception e) 
 		{
@@ -75,7 +75,7 @@ public class DobleListaEncadenada<T extends Comparable<T>> implements InterfazLi
 				actual.setNextNode(nuevo);
 				nuevo.setBackNode(actual);
 			}
-			size ++;
+			tamanio ++;
 		} 
 		catch (Exception e) 
 		{
@@ -106,7 +106,7 @@ public class DobleListaEncadenada<T extends Comparable<T>> implements InterfazLi
 			anterior.setNextNode(nuevo);
 			nuevo.setBackNode(anterior);
 
-			size ++;
+			tamanio ++;
 		} 
 		catch (Exception e) 
 		{
@@ -179,7 +179,7 @@ public class DobleListaEncadenada<T extends Comparable<T>> implements InterfazLi
 				}
 			}
 
-			size --;
+			tamanio --;
 		} 
 		catch (Exception e) 
 		{
@@ -213,7 +213,7 @@ public class DobleListaEncadenada<T extends Comparable<T>> implements InterfazLi
 					actual = actual.getNext();
 				}
 
-				if (contador == size)
+				if (contador == tamanio)
 				{
 					Node<T> anterior = actual.getBack();
 					anterior.setNextNode(null);
@@ -229,7 +229,7 @@ public class DobleListaEncadenada<T extends Comparable<T>> implements InterfazLi
 				}
 			}
 
-			size--;
+			tamanio--;
 		} 
 		catch (Exception e) 
 		{
@@ -245,7 +245,7 @@ public class DobleListaEncadenada<T extends Comparable<T>> implements InterfazLi
 
 			@Override
 			public boolean hasNext() {
-				if (size == 0) {
+				if (tamanio == 0) {
 					return false;
 				}
 
